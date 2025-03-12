@@ -10,7 +10,8 @@ import {
 } from "../ui/card";
 import { useState } from "react";
 import { Button } from "../ui/button";
-import { Loader2, UserPlusIcon } from "lucide-react";
+import { LinkIcon, Loader2, UserPlusIcon } from "lucide-react";
+import { Input } from "../ui/input";
 
 const InviteTeam = () => {
     const [tags, setTags] = useState<Tag[]>([]);
@@ -34,7 +35,7 @@ const InviteTeam = () => {
                     Thêm thành viên vào nhóm của bạn
                 </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex flex-col gap-4">
                 <div className="flex gap-x-2">
                     <TagInput
                         tags={tags}
@@ -66,6 +67,22 @@ const InviteTeam = () => {
                         )}
                         Mời
                     </Button>
+                </div>
+                <div className="space-y-2">
+                    <Input value={"123"} readOnly />
+                    <div className="flex items-center justify-end gap-2">
+                        <Button
+                            type="button"
+                            variant={"outline"}
+                            disabled={isPending}
+                        >
+                            Tạo lại
+                        </Button>
+                        <Button type="button">
+                            <LinkIcon />
+                            Sao chép
+                        </Button>
+                    </div>
                 </div>
             </CardContent>
         </Card>
