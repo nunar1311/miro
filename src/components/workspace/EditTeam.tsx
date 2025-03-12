@@ -1,16 +1,11 @@
 "use client";
-
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import {
     Card,
-    CardContent,
-    CardDescription,
     CardHeader,
     CardTitle,
+    CardDescription,
+    CardContent,
 } from "../ui/card";
-import { Separator } from "../ui/separator";
 import {
     Form,
     FormControl,
@@ -19,67 +14,46 @@ import {
     FormItem,
     FormLabel,
 } from "../ui/form";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
+import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
+import { Button } from "../ui/button";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { workspaceSchema, workspaceType } from "@/lib/schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { createWorkspace } from "@/action/workspace/createWorkspace";
-import { useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
 
-interface CreateWorkspaceFormProps {
-    onCancel?: () => void;
+interface EditTeamProps {
+    name: string;
+    description: string;
 }
 
-export const CreateWorkspaceForm = ({
-    onCancel,
-}: CreateWorkspaceFormProps) => {
+const EditTeam = ({ name, description }: EditTeamProps) => {
     const form = useForm<workspaceType>({
         resolver: zodResolver(workspaceSchema),
         defaultValues: {
-            name: "",
-            description: "",
+            name: name,
+            description: description,
         },
     });
-    const router = useRouter();
+    const [isPending, setIsPending] = useState<boolean>(false);
 
-    const { mutate: onSubmit, isPending } = useMutation({
-        mutationFn: (values: workspaceType) =>
-            createWorkspace(values),
-        onSuccess: (data) => {
-            form.reset();
-            onCancel?.();
-            toast.success("Nhóm đã được tạo thành công");
-            router.push(`/workspace/${data?.id}`);
-        },
-        onError: () => {
-            toast.error("Đã có lỗi xảy ra. Vui lòng thử lại");
-        },
-    });
-
+    const onSubmit = async (values: workspaceType) => {
+        setIsPending(true);
+        console.log(values);
+    };
     return (
-        <Card className="w-full max-w-md">
-            <CardHeader className="flex">
-                <CardTitle>Hãy xây dựng một workspace</CardTitle>
+        <Card>
+            <CardHeader>
+                <CardTitle>Cài đặt nhóm</CardTitle>
                 <CardDescription>
-                    Tăng năng suất của bạn bằng cách giúp mọi người dễ
-                    dàng truy cập các dự án ở cùng một nơi.
+                    Cài đặt thông tin nhóm của bạn
                 </CardDescription>
             </CardHeader>
-
-            <div className="px-5">
-                <Separator />
-            </div>
-
-            <CardContent className=" border-none">
+            <CardContent>
                 <Form {...form}>
-                    <form
-                        onSubmit={form.handleSubmit((e) =>
-                            onSubmit(e),
-                        )}
-                    >
+                    <form onSubmit={form.handleSubmit(onSubmit)}>
                         <div className="flex flex-col gap-4">
                             <div
                                 className={cn(
@@ -101,12 +75,12 @@ export const CreateWorkspaceForm = ({
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="font-bold">
-                                            Tên workspace
+                                            Tên nhóm
                                         </FormLabel>
                                         <FormControl>
                                             <Input
                                                 {...field}
-                                                placeholder="Tên workspace"
+                                                placeholder="Tên nhóm"
                                                 required
                                                 disabled={isPending}
                                             />
@@ -124,11 +98,11 @@ export const CreateWorkspaceForm = ({
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="font-bold">
-                                            Mô tả workspace
+                                            Mô tả nhóm
                                         </FormLabel>
                                         <FormControl>
                                             <Textarea
-                                                cols={6}
+                                                rows={6}
                                                 placeholder="Mô tả các dự án và nhiệm vụ tại đây."
                                                 {...field}
                                                 disabled={isPending}
@@ -137,25 +111,13 @@ export const CreateWorkspaceForm = ({
                                         <FormDescription>
                                             Thu hút các thành viên của
                                             bạn tham gia bằng một vài
-                                            từ về Không gian làm việc
-                                            của bạn
+                                            từ về nhóm của bạn
                                         </FormDescription>
                                     </FormItem>
                                 )}
                             />
                         </div>
-                        <div className="flex items-center justify-between mt-8">
-                            <Button
-                                type="button"
-                                variant={"secondary"}
-                                onClick={onCancel}
-                                disabled={isPending}
-                                className={cn(
-                                    !onCancel && "invisible",
-                                )}
-                            >
-                                Trở về
-                            </Button>
+                        <div className="flex items-center justify-end mt-8">
                             <Button
                                 type="submit"
                                 disabled={isPending}
@@ -163,7 +125,7 @@ export const CreateWorkspaceForm = ({
                                 {isPending ? (
                                     <Loader2 className="animate-spin" />
                                 ) : null}
-                                Tạo Workspace
+                                Lưu
                             </Button>
                         </div>
                     </form>
@@ -172,3 +134,5 @@ export const CreateWorkspaceForm = ({
         </Card>
     );
 };
+
+export default EditTeam;

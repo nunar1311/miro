@@ -1,5 +1,6 @@
 "use client";
 
+import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -76,23 +77,21 @@ export const AccountForm = ({
     });
 
     const [open, setOpen] = useState<boolean>(false);
-    const [isPending, setIsPending] = useState<boolean>(false);
 
     const router = useRouter();
 
-    const onSubmit = async (values: userType) => {
-        try {
-            setIsPending(true);
-            await updateUser(values);
+    const { mutate: onSubmit, isPending } = useMutation({
+        mutationFn: (values: userType) => updateUser(values),
+        onSuccess: () => {
             router.push(`/create-workspace`);
             toast.success("Hồ sơ đã được cập nhật");
-        } catch {
-            setIsPending(false);
+            form.reset();
+        },
+        onError: () => {
             toast.error("Đã có lỗi xảy ra, vui lòng thử lại");
-        } finally {
-            setIsPending(false);
-        }
-    };
+        },
+    });
+   
 
     return (
         <Card className="w-full max-w-md">
@@ -107,9 +106,13 @@ export const AccountForm = ({
                 <Separator />
             </div>
 
-            <CardContent className="px-5 pb-5 border-none">
+            <CardContent className="border-none">
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)}>
+                    <form
+                        onSubmit={form.handleSubmit((e) =>
+                            onSubmit(e),
+                        )}
+                    >
                         <div className="flex flex-col gap-4">
                             <div
                                 className={cn(

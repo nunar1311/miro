@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 import Modal from "@/components/Modal";
 import { ThemeProvider } from "next-themes";
 import JotaiProvider from "@/components/providers/JotaiProvider";
+import QueryProvider from "@/components/providers/QueryProvider";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -36,10 +37,12 @@ export default function RootLayout({
                     defaultTheme="system"
                     enableSystem
                 >
-                    <JotaiProvider>
-                        {children}
-                        <Modal />
-                    </JotaiProvider>
+                    <QueryProvider>
+                        <JotaiProvider>
+                            {children}
+                            <Modal />
+                        </JotaiProvider>
+                    </QueryProvider>
 
                     <Toaster />
                 </ThemeProvider>
