@@ -1,19 +1,15 @@
 "use server";
 
-import { auth } from "@/lib/auth";
-import prisma from "@/lib/prisma";
 import { $Enums, Prisma } from "@prisma/client";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { getAuthSession } from "../user/getAuthSession";
+import prisma from "@/lib/prisma";
 
 export const getProjectByWorkspaceId = async (
     workspaceId: string,
 ) => {
     try {
-        const session = await auth.api.getSession({
-            headers: await headers(),
-        });
-
+        const session = await getAuthSession();
         if (!session) {
             redirect("/auth");
         }
@@ -54,6 +50,7 @@ export const getProjectByWorkspaceId = async (
                     name: true,
                     description: true,
                     workspaceId: true,
+                    color: true,
                 },
             }),
             prisma.member.findMany({

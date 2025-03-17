@@ -40,7 +40,7 @@ const WorkspaceSwitcher = ({
                 (item) => item.workspaceId === workspaceId,
             ),
         );
-        router.push(`/workspace/${workspaceId}`);
+        router.push(`/team/${workspaceId}`);
     };
 
     useEffect(() => {

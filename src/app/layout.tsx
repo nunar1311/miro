@@ -44,7 +44,7 @@ export default function RootLayout({
                         </JotaiProvider>
                     </QueryProvider>
 
-                    <Toaster />
+                    <Toaster richColors position="bottom-center" />
                 </ThemeProvider>
             </body>
         </html>

@@ -1,3 +1,4 @@
+import { TaskPriority, TaskStatus } from "@prisma/client";
 import { z } from "zod";
 
 export const userSchema = z.object({
@@ -31,3 +32,31 @@ export const projectSchema = z.object({
 });
 
 export type projectType = z.infer<typeof projectSchema>;
+
+export const inviteSchema = z.object({
+    email: z.string().email("Email không hợp lệ"),
+});
+
+export type inviteType = z.infer<typeof inviteSchema>;
+
+export const taskSchema = z.object({
+    title: z.string().min(3, "Tiêu đề phải tối thiểu 3 ký tự"),
+    description: z.string().optional(),
+    assigneeId: z.string().optional(),
+    status: z.nativeEnum(TaskStatus),
+    projectId: z.string(),
+    priority: z.nativeEnum(TaskPriority),
+    dueDate: z.date(),
+    startDate: z.date(),
+    attachments: z
+        .array(
+            z.object({
+                name: z.string(),
+                url: z.string(),
+                type: z.enum(["IMAGE", "FILE"]),
+            }),
+        )
+        .optional(),
+});
+
+export type taskType = z.infer<typeof taskSchema>;

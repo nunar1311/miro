@@ -35,6 +35,8 @@ import {
     DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { useCreateProjectModal } from "@/store/use-create-project-modal";
+import { ProjectProps } from "@/types/project";
+import { useRouter } from "next/navigation";
 
 interface SidebarsProps extends User {
     workspaces: {
@@ -52,13 +54,17 @@ interface SidebarsProps extends User {
 
 const Sidebars = ({
     data,
-    // workspaceId,
+    dataProject,
+    workspaceId,
 }: {
     data: SidebarsProps;
+    dataProject: ProjectProps[];
     workspaceId: string;
 }) => {
     const [workspace, setWorkspace] = useCreateWorkspaceModal();
     const [project, setProject] = useCreateProjectModal();
+
+    const router = useRouter();
     return (
         <Sidebar collapsible="icon">
             <SidebarHeader className="h-12 bg-background">
@@ -105,9 +111,79 @@ const Sidebars = ({
                     </SidebarGroupAction>
                     <SidebarGroupContent>
                         <SidebarMenu>
-                            <SidebarMenuItem>
+                            {dataProject.map((project) => {
+                                const href = `/team/${workspaceId}/project/${project.id}`;
+                                return (
+                                    <SidebarMenuItem key={project.id}>
+                                        <SidebarMenuButton>
+                                            <SidebarMenuButton
+                                                asChild
+                                            >
+                                                <Link href={href}>
+                                                    <div
+                                                        style={{
+                                                            backgroundColor:
+                                                                project.color,
+                                                        }}
+                                                        className="w-5 h-5 rounded-md"
+                                                    ></div>
+                                                    <span>
+                                                        {project.name}
+                                                    </span>
+                                                </Link>
+                                            </SidebarMenuButton>
+                                        </SidebarMenuButton>
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger
+                                                asChild
+                                            >
+                                                <SidebarMenuAction
+                                                    showOnHover
+                                                >
+                                                    <MoreHorizontal />
+                                                    <span className="sr-only">
+                                                        More
+                                                    </span>
+                                                </SidebarMenuAction>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent
+                                                className="w-48 rounded-lg"
+                                                side="right"
+                                                align="start"
+                                            >
+                                                <DropdownMenuItem
+                                                    onClick={() => {
+                                                        router.push(
+                                                            href,
+                                                        );
+                                                    }}
+                                                >
+                                                    <Folder className="text-muted-foreground" />
+                                                    <span>
+                                                        View Project
+                                                    </span>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem>
+                                                    <Forward className="text-muted-foreground" />
+                                                    <span>
+                                                        Share Project
+                                                    </span>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuSeparator />
+                                                <DropdownMenuItem>
+                                                    <Trash2 className="text-muted-foreground" />
+                                                    <span>
+                                                        Delete Project
+                                                    </span>
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </SidebarMenuItem>
+                                );
+                            })}
+                            {/* <SidebarMenuItem>
                                 <SidebarMenuButton>
-                                    {/* Avatar */}
+
                                     <div className="w-5 h-5 rounded-md bg-blue-500"></div>
                                     <span>Project 1</span>
                                 </SidebarMenuButton>
@@ -144,7 +220,7 @@ const Sidebars = ({
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
-                            </SidebarMenuItem>
+                            </SidebarMenuItem> */}
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>

@@ -52,7 +52,7 @@ export const CreateWorkspaceForm = ({
             form.reset();
             onCancel?.();
             toast.success("Nhóm đã được tạo thành công");
-            router.push(`/workspace/${data?.id}`);
+            router.push(`/team/${data?.id}`);
         },
         onError: () => {
             toast.error("Đã có lỗi xảy ra. Vui lòng thử lại");
@@ -73,7 +73,7 @@ export const CreateWorkspaceForm = ({
                 <Separator />
             </div>
 
-            <CardContent className=" border-none">
+            <CardContent>
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit((e) =>

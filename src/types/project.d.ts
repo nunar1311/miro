@@ -1,10 +1,11 @@
-import { AccessLevel } from "@prisma/client";
+import { AccessLevel, Comment, Task } from "@prisma/client";
 
 export interface ProjectProps {
     id: string;
     name: string;
     description?: string;
     workspaceId: string;
+    color: string;
     members: {
         id: string;
         userId: string;
@@ -18,4 +19,16 @@ export interface ProjectProps {
             email: string;
         };
     }[];
+}
+
+export interface CommentProps extends Comment {
+    user: { id: string; name: string; image: string };
+}
+
+export interface TaskDistribution {
+    done: number;
+    inProgress: number;
+    overdue: number;
+    total: number;
+    items: Task[];
 }

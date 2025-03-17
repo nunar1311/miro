@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Loader2, Pen } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -31,11 +30,10 @@ import { projectSchema, projectType } from "@/lib/schema";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 import { createProject } from "@/action/project/createProject";
 import { getProjectByWorkspaceId } from "@/action/project/getProjectByWorkspace";
-import { ProjectProps } from "@/types/project";
-import { MemberProps } from "@/types/member";
 import { Checkbox } from "../ui/checkbox";
 import { Label } from "../ui/label";
 import { useRouter } from "next/navigation";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 interface CreateProjectFormProps {
     onCancel: () => void;
@@ -54,41 +52,37 @@ const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
         },
     });
 
-    const [isPending, setIsPending] = useState<boolean>(false);
-    const [data, setData] = useState<{
-        projects: ProjectProps[];
-        members: MemberProps[];
-    } | null>(null);
-
     const router = useRouter();
 
-    useEffect(() => {
-        const result = async () => {
+    const { data } = useQuery({
+        queryKey: ["teamProjects", workspaceId],
+        queryFn: async () => {
             const res = await getProjectByWorkspaceId(
                 workspaceId as string,
             );
 
-            setData(res);
-        };
+            if (!res) {
+                onCancel?.();
+            }
 
-        result();
-    }, [workspaceId]);
+            return res;
+        },
+    });
 
-    const onSubmit = async (values: projectType) => {
-        try {
-            setIsPending(true);
-            await createProject(values);
+    const { mutate: onSubmit, isPending } = useMutation({
+        mutationFn: (values: projectType) => createProject(values),
+        onSuccess: () => {
             form.reset();
             onCancel?.();
-            toast.success("Dự án đã được tạo thành công");
+            // router.push(`/team/${workspaceId}/project/${data}`);
             router.refresh();
-        } catch {
-            setIsPending(false);
+            toast.success("Dự án đã được tạo thành công");
+        },
+        onError: () => {
             toast.error("Đã có lỗi xảy ra, vui lòng thử lại");
-        } finally {
-            setIsPending(false);
-        }
-    };
+        },
+    });
+
     return (
         <Card>
             <CardHeader className="flex">
@@ -103,7 +97,11 @@ const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
             </div>
             <CardContent className="border-none">
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)}>
+                    <form
+                        onSubmit={form.handleSubmit((e) =>
+                            onSubmit(e),
+                        )}
+                    >
                         <div className="flex flex-col gap-4">
                             <div
                                 className={cn(
@@ -227,73 +225,68 @@ const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
                                             Truy cập dự án
                                         </FormLabel>
                                         <FormDescription>
-                                            Chọn thành viên workspace
-                                            nào sẽ có quyền truy cập
-                                            vào dự án này
+                                            Chọn thành viên trong nhóm
+                                            có quyền truy cập vào dự
+                                            án này
                                         </FormDescription>
-                                        <div>
-                                            {data?.members.map(
-                                                (member) => (
-                                                    <div
-                                                        key={
+
+                                        {data?.members.map(
+                                            (member) => (
+                                                <div
+                                                    key={member.id}
+                                                    className="flex items-center space-x-2"
+                                                >
+                                                    <Checkbox
+                                                        id={member.id}
+                                                        checked={field.value?.includes(
+                                                            member.userId as string,
+                                                        )}
+                                                        onCheckedChange={(
+                                                            checked,
+                                                        ) => {
+                                                            const currentValue =
+                                                                field.value ||
+                                                                [];
+                                                            if (
+                                                                checked
+                                                            ) {
+                                                                field.onChange(
+                                                                    [
+                                                                        ...currentValue,
+                                                                        member.userId,
+                                                                    ],
+                                                                );
+                                                            } else {
+                                                                field.onChange(
+                                                                    currentValue.filter(
+                                                                        (
+                                                                            id,
+                                                                        ) =>
+                                                                            id !==
+                                                                            member.userId,
+                                                                    ),
+                                                                );
+                                                            }
+                                                        }}
+                                                    />
+                                                    <Label
+                                                        htmlFor={
                                                             member.id
                                                         }
-                                                        className="flex items-center space-x-2"
+                                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 capitalize cursor-pointer"
                                                     >
-                                                        <Checkbox
-                                                            id={
-                                                                member.id
-                                                            }
-                                                            checked={field.value?.includes(
-                                                                member.userId as string,
-                                                            )}
-                                                            onCheckedChange={(
-                                                                checked,
-                                                            ) => {
-                                                                const currentValue =
-                                                                    field.value ||
-                                                                    [];
-                                                                if (
-                                                                    checked
-                                                                ) {
-                                                                    field.onChange(
-                                                                        [
-                                                                            ...currentValue,
-                                                                            member.userId,
-                                                                        ],
-                                                                    );
-                                                                } else {
-                                                                    field.onChange(
-                                                                        currentValue.filter(
-                                                                            (
-                                                                                id,
-                                                                            ) =>
-                                                                                id !==
-                                                                                member.userId,
-                                                                        ),
-                                                                    );
-                                                                }
-                                                            }}
-                                                        />
-                                                        <Label
-                                                            htmlFor={
-                                                                member.id
-                                                            }
-                                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 capitalize cursor-pointer"
-                                                        >
-                                                            {
-                                                                member
-                                                                    .user
-                                                                    .name
-                                                            }{" "}
-                                                            (
-                                                            {member.accessLevel.toLowerCase()}
-                                                            )
-                                                        </Label>
-                                                    </div>
-                                                ),
-                                            )}
-                                        </div>
+                                                        {
+                                                            member
+                                                                ?.user
+                                                                ?.name
+                                                        }{" "}
+                                                        (
+                                                        {member.accessLevel.toLowerCase()}
+                                                        )
+                                                    </Label>
+                                                </div>
+                                            ),
+                                        )}
                                     </FormItem>
                                 )}
                             />

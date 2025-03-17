@@ -8,7 +8,7 @@ const Page = async () => {
     } else if (!data?.onboardingCompleted) {
         redirect("/onboarding");
     } else {
-        redirect(`/workspace/${data.workspaces[0].workspaceId}`);
+        redirect(`/team/${data.workspaces[0].workspaceId}`);
     }
 };
 

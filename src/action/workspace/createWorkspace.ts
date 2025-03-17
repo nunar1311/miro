@@ -1,9 +1,9 @@
 "use server";
 
-import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { workspaceSchema, workspaceType } from "@/lib/schema";
-import { headers } from "next/headers";
+import { getAuthSession } from "../user/getAuthSession";
+import { redirect } from "next/navigation";
 
 const generateCode = () => {
     const code = Array.from(
@@ -19,12 +19,10 @@ const generateCode = () => {
 
 export const createWorkspace = async (data: workspaceType) => {
     try {
-        const session = await auth.api.getSession({
-            headers: await headers(),
-        });
+        const session = await getAuthSession();
 
         if (!session) {
-            throw new Error("Unauthorized");
+            redirect("/auth");
         }
 
         const validatedData = workspaceSchema.parse(data);

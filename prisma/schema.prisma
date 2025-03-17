@@ -32,6 +32,7 @@ model User {
   task                Task[]
   activity            Activity[]
   subscription        Subscription?
+  Comment             Comment[]
 
   @@map("user")
 }
@@ -125,6 +126,7 @@ model Project {
   projectAccess ProjectAccess[]
   task          Task[]
   activity      Activity[]
+  Comment       Comment[]
 
   @@index([workspaceId])
 }
@@ -173,6 +175,7 @@ model Task {
   assigneeTo  User?        @relation(fields: [assigneeId], references: [id], onDelete: SetNull)
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+  File        File[]
 }
 
 model Activity {
@@ -187,6 +190,35 @@ model Activity {
 
   @@index([projectId])
   @@index([userId])
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([projectId])
+  @@index([userId])
+}
+
+enum FileType {
+  IMAGE
+  PDF
+}
+
+model File {
+  id        String   @id @default(uuid())
+  name      String
+  url       String
+  taskId    String?
+  task      Task?    @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  type      FileType
+  createdAt DateTime @default(now())
 }
 
 enum SubscriptionPlan {

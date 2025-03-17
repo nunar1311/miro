@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { getProjectByWorkspaceId } from "@/action/project/getProjectByWorkspace";
 import { getUserWorkspace } from "@/action/workspace/getUserWorkspace";
 import Navbar from "@/components/Navbar";
 import Sidebars from "@/components/Sidebars";
@@ -5,6 +7,7 @@ import {
     SidebarInset,
     SidebarProvider,
 } from "@/components/ui/sidebar";
+import { ProjectProps } from "@/types/project";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
@@ -18,6 +21,8 @@ const Layout = async ({
     const data = await getUserWorkspace();
     const { workspaceId } = await params;
 
+    const dataProject = await getProjectByWorkspaceId(workspaceId);
+
     if (data?.onboardingCompleted && !data.workspaces) {
         redirect("/create-workspace");
     } else if (!data?.onboardingCompleted) {
@@ -26,8 +31,11 @@ const Layout = async ({
 
     return (
         <SidebarProvider>
-            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-            <Sidebars data={data as any} workspaceId={workspaceId} />
+            <Sidebars
+                workspaceId={workspaceId}
+                data={data as any}
+                dataProject={dataProject?.projects as ProjectProps[]}
+            />
             <SidebarInset>
                 <Navbar />
                 {children}

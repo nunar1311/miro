@@ -1,6 +1,5 @@
 import { getTeam } from "@/action/workspace/getTeam";
-import SettingsForm from "@/components/workspace/SettingsForm";
-import { useWorkspaceId } from "@/hooks/useWorkspaceId";
+import { redirect } from "next/navigation";
 
 const Page = async ({
     params,
@@ -8,8 +7,12 @@ const Page = async ({
     params: Promise<{ workspaceId: string }>;
 }) => {
     const { workspaceId } = await params;
-    const team = await getTeam(workspaceId);
-    return <SettingsForm data={team} />;
+    const workspace = await getTeam(workspaceId);
+
+    if (!workspace) {
+        return redirect("/team");
+    }
+    return <div>{workspaceId}</div>;
 };
 
 export default Page;

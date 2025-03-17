@@ -21,6 +21,7 @@ type ItemType = {
     label: string;
     href: string;
     icon: LucideIcon;
+    isSettings?: boolean;
 };
 
 const routes: ItemType[] = [
@@ -41,8 +42,9 @@ const routes: ItemType[] = [
     },
     {
         label: "Cài đặt",
-        href: "/settings",
+        href: "/settings/general",
         icon: SettingsIcon,
+        isSettings: true,
     },
 ];
 
@@ -54,17 +56,25 @@ const Navigation = () => {
         <SidebarMenu>
             <div className="flex flex-col gap-y-1">
                 {routes.map((item) => {
-                    const fullHref = `/workspace/${workspaceId}${item.href}`;
+                    const fullHref = `/team/${workspaceId}${item.href}`;
                     const Icon = item.icon;
-
+                    let isActive = fullHref === pathname;
+                    if (
+                        item.isSettings &&
+                        pathname.includes(
+                            `/team/${workspaceId}/settings`,
+                        )
+                    ) {
+                        isActive = true;
+                    }
                     return (
                         <SidebarMenuItem key={item.label}>
                             <SidebarMenuButton
-                                isActive={fullHref === pathname}
+                                isActive={isActive}
                                 asChild
                             >
                                 <Link href={fullHref}>
-                                    <Icon className={cn("size-10")} />
+                                    <Icon />
                                     <p className="text-sm">
                                         {item.label}
                                     </p>

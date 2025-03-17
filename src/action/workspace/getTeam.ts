@@ -1,15 +1,12 @@
 "use server";
 
-import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { getAuthSession } from "../user/getAuthSession";
 
 export const getTeam = async (workspaceId: string) => {
     try {
-        const session = await auth.api.getSession({
-            headers: await headers(),
-        });
+        const session = await getAuthSession();
 
         if (!session) {
             return redirect("/auth");

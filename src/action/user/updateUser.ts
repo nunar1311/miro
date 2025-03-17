@@ -1,16 +1,13 @@
 "use server";
 
-import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { userType, userSchema } from "@/lib/schema";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { getAuthSession } from "./getAuthSession";
 
 export const updateUser = async (data: userType) => {
     try {
-        const session = await auth.api.getSession({
-            headers: await headers(),
-        });
+        const session = await getAuthSession();
 
         const user = session?.user;
 

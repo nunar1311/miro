@@ -1,16 +1,13 @@
 "use server";
 
-import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { projectSchema, projectType } from "@/lib/schema";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { getAuthSession } from "../user/getAuthSession";
 
 export const createProject = async (data: projectType) => {
     try {
-        const session = await auth.api.getSession({
-            headers: await headers(),
-        });
+        const session = await getAuthSession();
 
         if (!session) {
             redirect("/auth");
@@ -55,7 +52,7 @@ export const createProject = async (data: projectType) => {
 
         console.log(validatedData);
 
-        await prisma.project.create({
+        const project = await prisma.project.create({
             data: {
                 name: validatedData.name,
                 description: validatedData.description,
@@ -71,18 +68,16 @@ export const createProject = async (data: projectType) => {
                         }),
                     ),
                 },
-                // activity: {
-                //     create: {
-                //         type: "PROJECT_CREATED",
-                //         description: `Tạo dự án ${validatedData.name}`,
-                //         userId: session.user.id,
-                //     },
-                // },
+                activity: {
+                    create: {
+                        type: "PROJECT_CREATED",
+                        description: `Tạo dự án ${validatedData.name}`,
+                        userId: session.user.id,
+                    },
+                },
             },
         });
 
-        return {
-            success: true,
-        };
+        return project.id;
     } catch {}
 };

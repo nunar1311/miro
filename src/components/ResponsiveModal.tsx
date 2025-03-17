@@ -3,6 +3,7 @@ import { useMedia } from "react-use";
 import {
     Dialog,
     DialogContent,
+    DialogDescription,
     DialogHeader,
     DialogTitle,
 } from "./ui/dialog";
@@ -27,6 +28,7 @@ export const ResponsiveModal = ({
                 <DialogContent className="p-0">
                     <DialogHeader className="sr-only">
                         <DialogTitle></DialogTitle>
+                        <DialogDescription></DialogDescription>
                     </DialogHeader>
                     {children}
                 </DialogContent>
