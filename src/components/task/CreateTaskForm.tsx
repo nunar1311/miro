@@ -42,8 +42,8 @@ import { getProjectDetails } from "@/action/project/getProjectDetails";
 import { ProjectProps } from "@/types/project";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { Avatar, AvatarImage } from "../ui/avatar";
 import { TaskPriority, TaskStatus } from "@prisma/client";
+import AvatarUser from "../AvatarUser";
 
 interface CreateTaskFormProps {
     onCancel: () => void;
@@ -147,12 +147,12 @@ const CreateTaskForm = ({ onCancel }: CreateTaskFormProps) => {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="font-semibold">
-                                            Tên dự án
+                                            Tên công việc
                                         </FormLabel>
                                         <FormControl>
                                             <Input
                                                 {...field}
-                                                placeholder="Nhập tên dự án"
+                                                placeholder="Nhập tên công việc"
                                                 required
                                                 disabled={isPending}
                                             />
@@ -208,15 +208,12 @@ const CreateTaskForm = ({ onCancel }: CreateTaskFormProps) => {
                                                                 member?.userId
                                                             }
                                                         >
-                                                            <Avatar className="size-6 rounded-md">
-                                                                <AvatarImage
-                                                                    src={
-                                                                        member
-                                                                            .user
-                                                                            .image
-                                                                    }
-                                                                />
-                                                            </Avatar>
+                                                            <AvatarUser
+                                                                user={
+                                                                    member.user
+                                                                }
+                                                                size="md"
+                                                            />
                                                             <span className="truncate">
                                                                 {
                                                                     member

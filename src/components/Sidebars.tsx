@@ -36,7 +36,7 @@ import {
 } from "./ui/dropdown-menu";
 import { useCreateProjectModal } from "@/store/use-create-project-modal";
 import { ProjectProps } from "@/types/project";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface SidebarsProps extends User {
     workspaces: {
@@ -65,6 +65,7 @@ const Sidebars = ({
     const [project, setProject] = useCreateProjectModal();
 
     const router = useRouter();
+    const pathname = usePathname();
     return (
         <Sidebar collapsible="icon">
             <SidebarHeader className="h-12 bg-background">
@@ -75,7 +76,7 @@ const Sidebars = ({
                     <FastForward className="fill-current text-primary -rotate-45 size-7 mb-1" />
                 </Link>
             </SidebarHeader>
-            <SidebarContent className="bg-background">
+            <SidebarContent className="bg-background hidden-scrollbar">
                 <SidebarGroup>
                     <SidebarGroupLabel>Workspaces</SidebarGroupLabel>
                     <SidebarGroupAction
@@ -113,25 +114,25 @@ const Sidebars = ({
                         <SidebarMenu>
                             {dataProject.map((project) => {
                                 const href = `/team/${workspaceId}/project/${project.id}`;
+                                const isActive = pathname === href;
                                 return (
                                     <SidebarMenuItem key={project.id}>
-                                        <SidebarMenuButton>
-                                            <SidebarMenuButton
-                                                asChild
-                                            >
-                                                <Link href={href}>
-                                                    <div
-                                                        style={{
-                                                            backgroundColor:
-                                                                project.color,
-                                                        }}
-                                                        className="w-5 h-5 rounded-md"
-                                                    ></div>
-                                                    <span>
-                                                        {project.name}
-                                                    </span>
-                                                </Link>
-                                            </SidebarMenuButton>
+                                        <SidebarMenuButton
+                                            isActive={isActive}
+                                            asChild
+                                        >
+                                            <Link href={href}>
+                                                <div
+                                                    style={{
+                                                        backgroundColor:
+                                                            project.color,
+                                                    }}
+                                                    className="w-5 h-5 rounded-md"
+                                                ></div>
+                                                <span>
+                                                    {project.name}
+                                                </span>
+                                            </Link>
                                         </SidebarMenuButton>
                                         <DropdownMenu>
                                             <DropdownMenuTrigger

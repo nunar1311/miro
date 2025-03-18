@@ -10,6 +10,7 @@ import { Activity } from "@prisma/client";
 import { Card } from "../ui/card";
 import TaskDistributionChart from "./TaskDistributionChart";
 import TaskActivityFeed from "./TaskActivityFeed";
+import Component from "../comp-536";
 
 interface DashboardProjectProps {
     project: ProjectProps;

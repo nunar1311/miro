@@ -1,7 +1,6 @@
 "use client";
 
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
-import { cn } from "@/lib/utils";
 import {
     LayoutDashboard,
     LucideIcon,
