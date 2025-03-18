@@ -13,17 +13,17 @@ const ProjectHeader = ({ project }: { project: ProjectProps }) => {
             <div className="flex items-center gap-3">
                 <div
                     style={{
-                        backgroundColor: project.color,
+                        backgroundColor: project?.color,
                     }}
                     className="size-10 rounded-md"
                 ></div>
                 <Label className="text-3xl font-semibold">
-                    {project.name}
+                    {project?.name}
                 </Label>
 
-                {project.description && (
+                {project?.description && (
                     <p className="text-sm text-muted-foreground">
-                        {project.description}
+                        {project?.description}
                     </p>
                 )}
             </div>

@@ -112,10 +112,10 @@ export const getProjectDetails = async (
             total: project?.task.length,
             done: project?.task.filter(
                 (t) => t.status === TaskStatus.DONE,
-            ),
+            ).length,
             inProgress: project?.task.filter(
                 (t) => t.status === TaskStatus.IN_PROGRESS,
-            ),
+            ).length,
             overDue: project?.task.filter(
                 (t) =>
                     t.status !== TaskStatus.DONE &&

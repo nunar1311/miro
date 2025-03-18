@@ -29,8 +29,6 @@ const Page = async ({
 
     const data = await getProjectDetails(workspaceId, projectId);
 
-    console.log(data?.tasks);
-
     return (
         <div className="flex flex-col gap-4 px-10">
             <ProjectHeader
@@ -90,7 +88,7 @@ const Page = async ({
                         tasks={
                             data?.tasks as unknown as TaskDistribution
                         }
-                        activities={data!.activities!}
+                        activities={data?.activities ?? []}
                         totalMembers={data?.totalMembers as number}
                         comments={data?.comments as CommentProps[]}
                     />

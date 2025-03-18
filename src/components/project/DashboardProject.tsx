@@ -3,11 +3,13 @@
 import {
     CommentProps,
     ProjectProps,
+    TaskActivity,
     TaskDistribution,
 } from "@/types/project";
 import { Activity } from "@prisma/client";
 import { Card } from "../ui/card";
 import TaskDistributionChart from "./TaskDistributionChart";
+import TaskActivityFeed from "./TaskActivityFeed";
 
 interface DashboardProjectProps {
     project: ProjectProps;
@@ -53,7 +55,7 @@ const DashboardProject = ({
                             Công việc quá hạn
                         </span>
                         <span className="text-3xl font-semibold">
-                            {tasks?.overdue}
+                            {tasks?.overdue || 0}
                         </span>
                     </div>
                 </Card>
@@ -63,14 +65,14 @@ const DashboardProject = ({
                             Thành viên
                         </span>
                         <span className="text-3xl font-semibold">
-                            {totalMembers || 0}
+                            {totalMembers}
                         </span>
                     </div>
                 </Card>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <TaskDistributionChart tasks={tasks} />
-                <Card className="p-4"></Card>
+                <TaskActivityFeed activities={activities} />
                 <Card className="p-4"></Card>
             </div>
         </div>

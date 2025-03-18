@@ -48,32 +48,34 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 const TaskDistributionChart = ({
-    tasks = { done: 0, inProgress: 0, overdue: 0, total: 0 },
+    tasks,
 }: TaskDistributionChartProps) => {
     const data = [
         {
             name: "Hoàn thành",
-            value: tasks.done,
-            fill: "#00b74a",
+            value: tasks?.done,
+            fill: "oklch(0.723 0.219 149.579)",
         },
         {
             name: "Đang thực hiện",
-            value: tasks.inProgress,
-            fill: "#f7b500",
+            value: tasks?.inProgress,
+            fill: "oklch(0.795 0.184 86.047)",
         },
         {
             name: "Quá hạn",
-            value: tasks.overdue,
-            fill: "#f44336",
+            value: tasks?.overdue,
+            fill: "oklch(0.637 0.237 25.331)",
         },
         {
             name: "Chưa thực hiện",
             value:
-                tasks.total -
-                (tasks.done + tasks.inProgress + tasks.overdue),
-            fill: "#e0e0e0",
+                (tasks?.total ?? 0) -
+                ((tasks?.done ?? 0) +
+                    (tasks?.inProgress ?? 0) +
+                    (tasks?.overdue ?? 0)),
+            fill: "oklch(0.623 0.214 259.815)",
         },
-    ].filter((item) => item.value > 0);
+    ].filter((item) => (item.value ?? 0) > 0);
     return (
         <Card>
             <CardHeader className="items-center pb-0">
@@ -129,7 +131,7 @@ const TaskDistributionChart = ({
                                                     y={viewBox.cy}
                                                     className="fill-foreground text-3xl font-bold"
                                                 >
-                                                    {tasks.total.toLocaleString()}
+                                                    {tasks?.total.toLocaleString()}
                                                 </tspan>
                                                 <tspan
                                                     x={viewBox.cx}

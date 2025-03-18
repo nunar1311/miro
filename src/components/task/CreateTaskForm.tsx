@@ -56,7 +56,7 @@ const CreateTaskForm = ({ onCancel }: CreateTaskFormProps) => {
     const router = useRouter();
 
     const form = useForm<taskType>({
-        // resolver: zodResolver(taskSchema),
+        resolver: zodResolver(taskSchema),
         defaultValues: {
             title: "",
             description: "",
@@ -69,7 +69,7 @@ const CreateTaskForm = ({ onCancel }: CreateTaskFormProps) => {
     });
 
     const { data } = useQuery({
-        queryKey: ["workspace", workspaceId, projectId],
+        queryKey: ["project", workspaceId, projectId],
         queryFn: async () => {
             const res = await getProjectDetails(
                 workspaceId as string,
@@ -79,8 +79,6 @@ const CreateTaskForm = ({ onCancel }: CreateTaskFormProps) => {
             return res?.project as unknown as ProjectProps;
         },
     });
-
-    console.log(data?.members.map((member) => member.userId));
 
     const { mutate: onSubmit, isPending } = useMutation({
         mutationFn: async (values: taskType) => {

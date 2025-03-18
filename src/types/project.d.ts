@@ -32,3 +32,15 @@ export interface TaskDistribution {
     total: number;
     items: Task[];
 }
+
+export interface TaskActivity {
+    id: string;
+    type: string;
+    description: string;
+    createdAt: Date;
+    user: {
+        id: string;
+        name: string;
+        image: string;
+    };
+}
