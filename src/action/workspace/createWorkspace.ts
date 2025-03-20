@@ -4,18 +4,7 @@ import prisma from "@/lib/prisma";
 import { workspaceSchema, workspaceType } from "@/lib/schema";
 import { getAuthSession } from "../user/getAuthSession";
 import { redirect } from "next/navigation";
-
-const generateCode = () => {
-    const code = Array.from(
-        { length: 6 },
-        () =>
-            "0123456789abcdefghijklmnopqrstuvwxyz"[
-                Math.floor(Math.random() * 36)
-            ],
-    ).join("");
-
-    return code;
-};
+import { generateCode } from "@/lib/generateCode";
 
 export const createWorkspace = async (data: workspaceType) => {
     try {

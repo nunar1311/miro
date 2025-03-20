@@ -39,7 +39,7 @@ const Navbar = () => {
                             {pageHeading ? (
                                 <BreadcrumbLink asChild>
                                     <Link
-                                        href={`/workspace/${workspaceId}`}
+                                        href={`/team/${workspaceId}`}
                                     >
                                         Trang chủ
                                     </Link>

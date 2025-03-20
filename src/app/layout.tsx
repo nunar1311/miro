@@ -6,6 +6,7 @@ import Modal from "@/components/Modal";
 import { ThemeProvider } from "next-themes";
 import JotaiProvider from "@/components/providers/JotaiProvider";
 import QueryProvider from "@/components/providers/QueryProvider";
+import { NuqsAdapter } from "nuqs/adapters/next";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -38,10 +39,12 @@ export default function RootLayout({
                     enableSystem
                 >
                     <QueryProvider>
-                        <JotaiProvider>
-                            {children}
-                            <Modal />
-                        </JotaiProvider>
+                        <NuqsAdapter>
+                            <JotaiProvider>
+                                {children}
+                                <Modal />
+                            </JotaiProvider>
+                        </NuqsAdapter>
                     </QueryProvider>
 
                     <Toaster richColors position="bottom-center" />

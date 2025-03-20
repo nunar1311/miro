@@ -76,9 +76,9 @@ const DeleteTeam = ({ teamId, name }: DeleteTeamProps) => {
                 <div className="w-full h-16 border-2 flex items-center px-4 rounded-lg bg-accent/50 mb-8">
                     <TriangleAlert className="text-destructive mr-2" />
                     <CardDescription>
-                        Xóa vĩnh viễn nhóm &apos;
-                        <strong>{name}</strong>&apos;. Hành động này
-                        không thể hoàn tác. Hãy tiến hành thận trọng.
+                        Xóa vĩnh viễn nhóm <strong>{name}</strong>.
+                        Hành động này không thể hoàn tác. Hãy tiến
+                        hành thận trọng.
                     </CardDescription>
                 </div>
                 <Dialog open={open}>
@@ -101,9 +101,9 @@ const DeleteTeam = ({ teamId, name }: DeleteTeamProps) => {
                             <TriangleAlert className="size-8 text-destructive mr-2" />
                             <DialogDescription>
                                 Không thể hoàn tác hành động này. Thao
-                                tác này sẽ xóa vĩnh viễn nhóm &apos;
-                                <strong>{name}</strong>&apos;. Hãy
-                                tiến hành thận trọng.
+                                tác này sẽ xóa vĩnh viễn nhóm{" "}
+                                <strong>{name}</strong>. Hãy tiến hành
+                                thận trọng.
                             </DialogDescription>
                         </div>
 
@@ -121,12 +121,11 @@ const DeleteTeam = ({ teamId, name }: DeleteTeamProps) => {
                                             <FormItem>
                                                 <FormLabel>
                                                     Để xác nhận, hãy
-                                                    nhập &apos;
+                                                    nhập
                                                     <strong>
                                                         {name}
                                                     </strong>
-                                                    &apos; vào hộp bên
-                                                    dưới.
+                                                    vào hộp bên dưới.
                                                 </FormLabel>
                                                 <Input
                                                     {...field}

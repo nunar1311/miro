@@ -18,8 +18,8 @@ const Layout = async ({
                 <div className="w-40 shrink-0 mt-20 ml-16">
                     <TabsSetting basePath={basePath} />
                 </div>
-                <div className="ml-6 flex-grow space-y-8">
-                    <Label className="text-4xl font-semibold">
+                <div className="ml-6 flex-grow space-y-6 w-full">
+                    <Label className="text-3xl font-semibold">
                         Cài đặt
                     </Label>
                     {children}

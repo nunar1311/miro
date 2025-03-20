@@ -37,7 +37,7 @@ const TabsSetting = ({ basePath }: TabsSettingProps) => {
                             href={href}
                             key={tab.name}
                             className={cn(
-                                "relative w-full justify-start px-3 py-1.5 flex items-center",
+                                "relative w-full justify-start px-3 py-1.5 flex items-center text-sm",
                                 "hover:text-primary transition-colors",
                                 "after:absolute after:inset-y-0 after:start-0 after:w-0.5",
                                 isActive
