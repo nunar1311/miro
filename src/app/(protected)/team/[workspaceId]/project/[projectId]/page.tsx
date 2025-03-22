@@ -1,6 +1,8 @@
 import { getProjectDetails } from "@/action/project/getProjectDetails";
 import DashboardProject from "@/components/project/DashboardProject";
 import ProjectHeader from "@/components/project/ProjectHeader";
+import ProjectKanban from "@/components/project/ProjectKanban";
+import ProjectTableContainer from "@/components/project/ProjectTableContainer";
 import {
     Tabs,
     TabsContent,
@@ -10,6 +12,7 @@ import {
 import {
     CommentProps,
     ProjectProps,
+    ProjectTaskProps,
     TaskDistribution,
 } from "@/types/project";
 import Link from "next/link";
@@ -94,14 +97,10 @@ const Page = async ({
                     />
                 </TabsContent>
                 <TabsContent value="table">
-                    <p className="text-muted-foreground p-4 text-center text-xs">
-                        Content for Tab 2
-                    </p>
+                    <ProjectTableContainer projectId={projectId} />
                 </TabsContent>
                 <TabsContent value="kanban">
-                    <p className="text-muted-foreground p-4 text-center text-xs">
-                        Content for Tab 3
-                    </p>
+                    <ProjectKanban initialTasks={data?.tasks.items as unknown as ProjectTaskProps[]} />
                 </TabsContent>
                 <TabsContent value="calendar">
                     <p className="text-muted-foreground p-4 text-center text-xs">

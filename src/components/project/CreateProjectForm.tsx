@@ -34,6 +34,7 @@ import { Checkbox } from "../ui/checkbox";
 import { Label } from "../ui/label";
 import { useRouter } from "next/navigation";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { Badge } from "../ui/badge";
 
 interface CreateProjectFormProps {
     onCancel: () => void;
@@ -279,10 +280,26 @@ const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
                                                             member
                                                                 ?.user
                                                                 ?.name
-                                                        }{" "}
-                                                        (
-                                                        {member.accessLevel.toLowerCase()}
-                                                        )
+                                                        }
+                                                        <Badge
+                                                            className={cn(
+                                                                "text-white",
+                                                                member.accessLevel ===
+                                                                    "OWNER" &&
+                                                                    "bg-blue-500",
+                                                                member.accessLevel ===
+                                                                    "MEMBER" &&
+                                                                    "bg-green-500",
+                                                            )}
+                                                        >
+                                                            {member.accessLevel ===
+                                                            "OWNER"
+                                                                ? "Chủ sở hữu"
+                                                                : member.accessLevel ===
+                                                                  "MEMBER"
+                                                                ? "Thành viên"
+                                                                : "Chỉ xem"}
+                                                        </Badge>
                                                     </Label>
                                                 </div>
                                             ),

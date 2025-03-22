@@ -1,4 +1,9 @@
-import { AccessLevel, Comment, Task } from "@prisma/client";
+import {
+    AccessLevel,
+    Comment,
+    Task,
+    TaskStatus,
+} from "@prisma/client";
 
 export interface ProjectProps {
     id: string;
@@ -36,11 +41,30 @@ export interface TaskDistribution {
 export interface TaskActivity {
     id: string;
     type: string;
-    description: string;
+    description?: string;
     createdAt: Date;
     user: {
         id: string;
         name: string;
         image: string;
     };
+}
+
+export interface ProjectTaskProps extends Task {
+    assigneeTo: {
+        id: string;
+        name: string;
+        image?: string;
+    };
+    project: {
+        id: string;
+        name: string;
+        color: string;
+    };
+}
+
+export interface ColumnKanbanProps {
+    id: TaskStatus;
+    title: string;
+    tasks: ProjectTaskProps[];
 }

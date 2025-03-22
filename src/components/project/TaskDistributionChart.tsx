@@ -77,7 +77,7 @@ const TaskDistributionChart = ({
         },
     ].filter((item) => (item.value ?? 0) > 0);
     return (
-        <Card>
+        <Card className="p-4">
             <CardHeader className="items-center pb-0">
                 <CardTitle className="text-lg font-semibold">
                     Phân bổ công việc

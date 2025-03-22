@@ -22,7 +22,7 @@ const AvatarUser = ({ user, size, className }: AvatarUserProps) => {
             <AvatarImage src={user.image || ""} alt={user.name} />
             <AvatarFallback
                 className={cn(
-                    "rounded-md",
+                    "rounded-md font-bold bg-primary text-accent",
                     size === "md" && "size-6",
                     size === "lg" && "size-10",
                     className,

@@ -32,3 +32,12 @@ export const TaskStatuses = [
         color: "text-gray-500",
     },
 ];
+
+export const TasksStatusVariant = {
+    [TaskStatus.TODO]: "bg-blue-500",
+    [TaskStatus.IN_PROGRESS]: "bg-yellow-500",
+    [TaskStatus.DONE]: "bg-green-500",
+    [TaskStatus.BLOCKED]: "bg-red-500",
+    [TaskStatus.BACKLOG]: "bg-gray-500",
+    [TaskStatus.IN_REVIEW]: "bg-blue-500",
+};

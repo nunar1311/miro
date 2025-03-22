@@ -130,10 +130,10 @@
 }
 
 .hidden-scrollbar {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
 }
 
 .hidden-scrollbar::-webkit-scrollbar {
-    display: none;
+    display: none !important;
 }

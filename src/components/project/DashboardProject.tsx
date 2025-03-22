@@ -3,14 +3,12 @@
 import {
     CommentProps,
     ProjectProps,
-    TaskActivity,
     TaskDistribution,
 } from "@/types/project";
 import { Activity } from "@prisma/client";
 import { Card } from "../ui/card";
 import TaskDistributionChart from "./TaskDistributionChart";
 import TaskActivityFeed from "./TaskActivityFeed";
-import Component from "../comp-536";
 
 interface DashboardProjectProps {
     project: ProjectProps;
@@ -60,7 +58,7 @@ const DashboardProject = ({
                         </span>
                     </div>
                 </Card>
-                <Card className="p-4">
+                <Card className="p-4 ">
                     <div className="flex flex-col items-start justify-between">
                         <span className="text-sm text-muted-foreground">
                             Thành viên
