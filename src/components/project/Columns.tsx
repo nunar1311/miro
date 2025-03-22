@@ -5,17 +5,9 @@ import Link from "next/link";
 import { Badge } from "../ui/badge";
 import { format } from "date-fns";
 import AvatarUser from "../AvatarUser";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { Button } from "../ui/button";
-import { EllipsisVertical } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Icons } from "../Icons";
+import ActionTable from "./ActionTable";
 
 export type TaskTableItem = {
     id: string;
@@ -204,28 +196,7 @@ export const columns: ColumnDef<TaskTableItem>[] = [
         accessorKey: "actions",
         header: () => <span className="sr-only">Hành động</span>,
         cell: ({ row }) => {
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button size={"icon"} variant={"ghost"}>
-                            <EllipsisVertical className="size-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                        <DropdownMenuItem asChild>
-                            <Link
-                                href={`/team/${row.original.project.workspaceId}/project/${row.original.project.id}/${row.original.id}`}
-                            >
-                                Xem công việc
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>
-                            Xoá công việc
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            );
+            return <ActionTable row={row} />;
         },
         size: 60,
         enableHiding: false,
