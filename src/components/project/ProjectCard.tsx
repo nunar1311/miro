@@ -2,7 +2,6 @@ import { ProjectTaskProps } from "@/types/project";
 import { DraggableProvided } from "@hello-pangea/dnd";
 import { Card } from "../ui/card";
 import Link from "next/link";
-import AvatarUser from "../AvatarUser";
 import { Badge } from "../ui/badge";
 import { cn } from "@/lib/utils";
 import { TaskPriority } from "@prisma/client";
@@ -37,7 +36,7 @@ const ProjectCard = ({ provider, task }: ProjectCardProps) => {
                         style={{
                             backgroundColor: task.project.color,
                         }}
-                        className="w-5 h-5 rounded-md"
+                        className="w-5 h-5 rounded-md bg-amber-200"
                     ></div>
                     <span className="text-xs">
                         {task.project.name}
@@ -56,12 +55,12 @@ const ProjectCard = ({ provider, task }: ProjectCardProps) => {
                     )}
                 >
                     {task.priority === "LOW"
-                        ? "Thấp"
+                        ? "T"
                         : task.priority === "MEDIUM"
-                        ? "Trung bình"
+                        ? "TB"
                         : task.priority === "HIGH"
-                        ? "Cao"
-                        : "Rất cao"}
+                        ? "C"
+                        : "RC"}
                 </Badge>
             </div>
         </Card>

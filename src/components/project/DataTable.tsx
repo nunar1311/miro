@@ -23,12 +23,14 @@ import {
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 import {
-    ChevronDown,
     ChevronDownIcon,
     ChevronLeft,
     ChevronRight,
     ChevronUpIcon,
+    CircleAlertIcon,
     ListFilterIcon,
+    MapIcon,
+    Trash2,
 } from "lucide-react";
 import {
     Table,
@@ -39,6 +41,17 @@ import {
     TableRow,
 } from "../ui/table";
 import { cn } from "@/lib/utils";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "../ui/alert-dialog";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -83,10 +96,11 @@ const DataTable = <TData, TValue>({
             pagination,
         },
     });
+
     return (
         <div className="space-y-4 mt-3">
             <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center w-full justify-between gap-3">
                     <div className="relative">
                         <Input
                             ref={inputRef}
@@ -120,34 +134,111 @@ const DataTable = <TData, TValue>({
                             />
                         </div>
                     </div>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button>
-                                Chọn cột <ChevronDown />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            {table
-                                .getAllColumns()
-                                .filter((column) =>
-                                    column.getCanHide(),
-                                )
-                                .map((column) => (
-                                    <DropdownMenuCheckboxItem
-                                        key={column.id}
-                                        className=" capitalize"
-                                        checked={column.getIsVisible()}
-                                        onChange={(value) =>
-                                            column.toggleVisibility(
-                                                !!value,
-                                            )
-                                        }
+
+                    <div className="flex items-center gap-x-2">
+                        {/* Delete Row */}
+                        {table.getSelectedRowModel().rows.length >
+                            0 && (
+                            <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                    <Button
+                                        className="ml-auto"
+                                        variant={"outline"}
                                     >
-                                        {column.id}
-                                    </DropdownMenuCheckboxItem>
-                                ))}
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                                        <Trash2 className="-ms-1 size-4" />
+                                        Xóa tất cả
+                                        <span className="bg-background text-muted-foreground/70 -me-1 inline-flex h-5 max-h-full items-center rounded border px-1 font-[inherit] text-[0.625rem] font-medium">
+                                            {
+                                                table.getSelectedRowModel()
+                                                    .rows.length
+                                            }
+                                        </span>
+                                    </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <div className="flex flex-col gap-2 max-sm:items-center sm:flex-row sm:gap-4">
+                                        <div
+                                            className="flex size-9 shrink-0 items-center justify-center rounded-full border"
+                                            aria-hidden="true"
+                                        >
+                                            <CircleAlertIcon
+                                                className="opacity-80"
+                                                size={16}
+                                            />
+                                        </div>
+                                        <AlertDialogHeader>
+                                            <AlertDialogTitle>
+                                                Bạn có chắc chắn muốn
+                                                xóa?
+                                            </AlertDialogTitle>
+                                            <AlertDialogDescription>
+                                                Hành động này không
+                                                thể hoàn tác. Bạn có
+                                                muốn tiếp tục?{" "}
+                                            </AlertDialogDescription>
+                                        </AlertDialogHeader>
+                                    </div>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>
+                                            Huỷ
+                                        </AlertDialogCancel>
+                                        <AlertDialogAction
+                                        // onClick={handleDeleteRows}
+                                        >
+                                            Xoá
+                                        </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                        )}
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button>
+                                    <MapIcon /> Xem
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                {table
+                                    .getAllColumns()
+                                    .filter((column) =>
+                                        column.getCanHide(),
+                                    )
+                                    .map((column) => {
+                                        return (
+                                            <DropdownMenuCheckboxItem
+                                                key={column.id}
+                                                className="capitalize"
+                                                checked={column.getIsVisible()}
+                                                onCheckedChange={(
+                                                    value,
+                                                ) =>
+                                                    column.toggleVisibility(
+                                                        !!value,
+                                                    )
+                                                }
+                                            >
+                                                {column.id ===
+                                                "status"
+                                                    ? "Trạng thái"
+                                                    : column.id ===
+                                                      "priority"
+                                                    ? "Độ ưu tiên"
+                                                    : column.id ===
+                                                      "startDate"
+                                                    ? "Ngày bắt đầu"
+                                                    : column.id ===
+                                                      "dueDate"
+                                                    ? "Ngày kết thúc"
+                                                    : column.id ===
+                                                      "assigneeTo"
+                                                    ? "Người thực hiện"
+                                                    : null}
+                                            </DropdownMenuCheckboxItem>
+                                        );
+                                    })}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
                 </div>
             </div>
             <div className="border rounded-md">

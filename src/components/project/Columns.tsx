@@ -118,7 +118,7 @@ export const columns: ColumnDef<TaskTableItem>[] = [
                 </div>
             );
         },
-        size: 100,
+        size: 120,
     },
     {
         accessorKey: "priority",
@@ -161,7 +161,7 @@ export const columns: ColumnDef<TaskTableItem>[] = [
     },
     {
         accessorKey: "dueDate",
-        header: "Hạn cuối",
+        header: "Ngày kết thúc",
         cell: ({ row }) => {
             const createdAt = row.getValue("dueDate") as Date;
             return <div>{format(createdAt, "P")}</div>;

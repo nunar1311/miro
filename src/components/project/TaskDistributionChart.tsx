@@ -67,7 +67,7 @@ const TaskDistributionChart = ({
             fill: "oklch(0.637 0.237 25.331)",
         },
         {
-            name: "Chưa thực hiện",
+            name: "Đang chờ",
             value:
                 (tasks?.total ?? 0) -
                 ((tasks?.done ?? 0) +

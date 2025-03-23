@@ -18,7 +18,7 @@ export const TaskStatuses = [
     },
     {
         status: TaskStatus.TODO,
-        label: "Chưa thực hiện",
+        label: "Đang chờ",
         color: "text-blue-500",
     },
     {

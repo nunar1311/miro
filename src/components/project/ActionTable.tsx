@@ -13,7 +13,11 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { EllipsisVertical } from "lucide-react";
+import {
+    EllipsisVertical,
+    SquareArrowOutUpRight,
+    Trash2,
+} from "lucide-react";
 import Link from "next/link";
 import { Row } from "@tanstack/react-table";
 import { TaskTableItem } from "./Columns";
@@ -53,7 +57,9 @@ const ActionTable = ({ row }: ActionTableProps) => {
                 <DropdownMenuItem asChild>
                     <Link
                         href={`/team/${row.original.project.workspaceId}/project/${row.original.project.id}/${row.original.id}`}
+                        className="text-primary"
                     >
+                        <SquareArrowOutUpRight className="text-primary" />{" "}
                         Xem công việc
                     </Link>
                 </DropdownMenuItem>
@@ -61,12 +67,14 @@ const ActionTable = ({ row }: ActionTableProps) => {
                 <DropdownMenuItem asChild>
                     <Button
                         variant={"ghost"}
+                        size={"sm"}
                         onClick={() => {
                             onSubmit();
                             setOpen(false);
                         }}
-                        className="w-full"
+                        className="w-full justify-start gap-1.5 text-destructive hover:text-destructive"
                     >
+                        <Trash2 className="size-4 text-destructive" />
                         Xóa công việc
                     </Button>
                 </DropdownMenuItem>
