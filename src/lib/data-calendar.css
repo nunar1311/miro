@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+.rbc-month-row {
+    @apply min-h-[92px];
+}
+
+.rbc-month-view {
+    @apply rounded-md;
+}
+
+.rbc-header {
+    @apply text-sm font-semibold text-gray-500 border-b-0 pb-4;
+}
+
+.rbc-button-link {
+    @apply text-xs font-normal text-gray-500;
+}
+
+.rbc-today {
+    background-color: inherit;
+}
+
+.rbc-off-range-bg {
+    background-color: inherit;
+}

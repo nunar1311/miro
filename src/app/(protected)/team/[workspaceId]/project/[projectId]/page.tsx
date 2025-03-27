@@ -3,6 +3,7 @@ import DashboardProject from "@/components/project/DashboardProject";
 import ProjectHeader from "@/components/project/ProjectHeader";
 import ProjectKanban from "@/components/project/ProjectKanban";
 import ProjectTableContainer from "@/components/project/ProjectTableContainer";
+import TaskCalendar from "@/components/project/TaskCalendar";
 import {
     Tabs,
     TabsContent,
@@ -100,12 +101,20 @@ const Page = async ({
                     <ProjectTableContainer projectId={projectId} />
                 </TabsContent>
                 <TabsContent value="kanban">
-                    <ProjectKanban initialTasks={data?.tasks.items as unknown as ProjectTaskProps[]} />
+                    <ProjectKanban
+                        initialTasks={
+                            data?.tasks
+                                .items as unknown as ProjectTaskProps[]
+                        }
+                    />
                 </TabsContent>
                 <TabsContent value="calendar">
-                    <p className="text-muted-foreground p-4 text-center text-xs">
-                        Content for Tab 3
-                    </p>
+                    <TaskCalendar
+                        initialTasks={
+                            data?.tasks
+                                .items as unknown as ProjectTaskProps[]
+                        }
+                    />
                 </TabsContent>
                 <TabsContent value="timeline">
                     <p className="text-muted-foreground p-4 text-center text-xs">

@@ -75,6 +75,18 @@ const DataTable = <TData, TValue>({
 
     const inputRef = useRef<HTMLInputElement>(null);
 
+    // const handleDelete = () => {
+    //     const selectRows = table.getSelectedRowModel().rows;
+    //     const updatedData = data.filter(
+    //         (item) =>
+    //             !selectRows.some(
+    //                 (row) => row.original.id === item.id,
+    //             ),
+    //     );
+
+    //     console.log(updatedData);
+    // };
+
     const table = useReactTable({
         data,
         columns,
@@ -183,7 +195,7 @@ const DataTable = <TData, TValue>({
                                             Huỷ
                                         </AlertDialogCancel>
                                         <AlertDialogAction
-                                        // onClick={handleDeleteRows}
+                                        // onClick={handleDelete}
                                         >
                                             Xoá
                                         </AlertDialogAction>
