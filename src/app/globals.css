@@ -50,8 +50,6 @@
 }
 
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.145 0 0);
     --popover: oklch(1 0 0);
@@ -83,6 +81,8 @@
     --sidebar-accent-foreground: oklch(0.205 0 0);
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.708 0 0);
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.141 0.005 285.823);
 }
 
 .dark {
@@ -136,4 +136,32 @@
 
 .hidden-scrollbar::-webkit-scrollbar {
     display: none !important;
+}
+
+.rbc-month-row {
+    @apply min-h-[92px];
+}
+
+.rbc-month-view {
+    @apply rounded-md;
+}
+
+.rbc-header {
+    @apply text-sm font-semibold text-gray-500 border-b-0 pb-4;
+}
+
+.rbc-button-link {
+    @apply text-xs font-normal text-gray-500;
+}
+
+.rbc-off-range-bg {
+    background: inherit !important;
+}
+
+.rbc-now {
+    background: inherit !important;
+}
+
+.rbc-button-link {
+    @apply !text-primary !z-0;
 }

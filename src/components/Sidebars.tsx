@@ -66,6 +66,7 @@ const Sidebars = ({
 
     const router = useRouter();
     const pathname = usePathname();
+
     return (
         <Sidebar collapsible="icon">
             <SidebarHeader className="h-12 bg-background">
@@ -78,14 +79,12 @@ const Sidebars = ({
             </SidebarHeader>
             <SidebarContent className="bg-background hidden-scrollbar">
                 <SidebarGroup>
-                    <SidebarGroupLabel>Workspaces</SidebarGroupLabel>
+                    <SidebarGroupLabel>Team</SidebarGroupLabel>
                     <SidebarGroupAction
                         onClick={() => setWorkspace(!workspace)}
                     >
                         <Plus />{" "}
-                        <span className="sr-only">
-                            Thêm workspace
-                        </span>
+                        <span className="sr-only">Thêm team</span>
                     </SidebarGroupAction>
                     <SidebarGroupContent>
                         <SidebarMenu>

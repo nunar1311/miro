@@ -1,6 +1,16 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { TaskStatus } from "@prisma/client";
 import AvatarUser from "../AvatarUser";
+import {
+    HoverCard,
+    HoverCardContent,
+    HoverCardTrigger,
+} from "../ui/hover-card";
+import Link from "next/link";
+import { useWorkspaceId } from "@/hooks/useWorkspaceId";
+import { redirect, useRouter } from "next/navigation";
 
 interface EventCardProps {
     id: string;
@@ -34,16 +44,22 @@ const EventCard = ({
     assigneeTo,
     status,
 }: EventCardProps) => {
+    const workspaceId = useWorkspaceId();
+    const router = useRouter();
+
+    if (!workspaceId) return redirect("/team");
     return (
-        <div className="px-2">
-            <div
-                className={cn(
-                    "p-1.5 text-xs bg-accent border rounded-md border-l-4 flex flex-col gap-y-1.5 cursor-pointer hover:opacity-75 transition",
-                    statusColorMap[status],
-                )}
-            >
-                <p>{title}</p>
-                <div>
+        <HoverCard>
+            <HoverCardTrigger asChild>
+                <Link
+                    href={`/team/${workspaceId}/project/${project.id}/${id}`}
+                    className={cn(
+                        "p-1.5 text-xs bg-accent border rounded-md border-l-6 flex items-center gap-2 gap-y-1.5 cursor-pointer hover:opacity-75 transition",
+                        statusColorMap[status],
+                    )}
+                >
+                    <p>{title}</p>
+
                     <AvatarUser
                         user={{
                             name: assigneeTo.name,
@@ -51,9 +67,18 @@ const EventCard = ({
                         }}
                         size="md"
                     />
-                </div>
-            </div>
-        </div>
+                </Link>
+            </HoverCardTrigger>
+            <HoverCardContent align="start" className="bg-background">
+                <Link
+                    href={`/team/${workspaceId}/project/${project.id}/${id}`}
+                >
+                    <h3 className="text-lg font-bold">{title}</h3>
+                    <p className="text-sm">{project.name}</p>
+                    <p className="text-sm">{assigneeTo.name}</p>
+                </Link>
+            </HoverCardContent>
+        </HoverCard>
     );
 };
 

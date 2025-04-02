@@ -88,7 +88,7 @@ const WorkspaceSwitcher = ({
                 ref={ref}
             >
                 <DropdownMenuLabel className="text-xs text-muted-foreground">
-                    Workspaces
+                    Team
                 </DropdownMenuLabel>
                 {workspaces.map((item) => (
                     <DropdownMenuItem
