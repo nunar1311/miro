@@ -54,7 +54,7 @@ const DashboardProject = ({
                             Công việc quá hạn
                         </span>
                         <span className="text-3xl font-semibold">
-                            {tasks?.overdue || 0}
+                            {tasks?.overDue}
                         </span>
                     </div>
                 </Card>

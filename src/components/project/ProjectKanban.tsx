@@ -128,12 +128,12 @@ const ProjectKanban = ({ initialTasks }: ProjectKanbanProps) => {
         [columns, router],
     );
     return (
-        <div className="flex justify-around h-full overflow-x-auto mt-2">
+        <div className="flex justify-around h-full gap-2 overflow-x-auto mt-2">
             <DragDropContext onDragEnd={onDragEnd}>
                 {columns.map((column) => (
                     <div
                         key={column.id}
-                        className="flex flex-col min-w-40 w-[180px] h-[calc(100vh-11rem)] bg-sidebar-accent rounded-md"
+                        className="flex flex-col w-1/5 h-[calc(100vh-11rem)] bg-muted/25 rounded-md"
                     >
                         <div className="flex items-center px-2 h-10">
                             <div className="flex items-center gap-2">

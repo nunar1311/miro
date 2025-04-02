@@ -33,7 +33,7 @@ export interface CommentProps extends Comment {
 export interface TaskDistribution {
     done: number;
     inProgress: number;
-    overdue: number;
+    overDue: number;
     total: number;
     items: Task[];
 }
